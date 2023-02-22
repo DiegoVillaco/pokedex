@@ -36,3 +36,7 @@
     transform: rotate(360deg);
   }
 }
+.weakness-container{
+  display: flex;
+  gap: 5px;
+}

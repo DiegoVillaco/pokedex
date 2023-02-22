@@ -1,6 +1,10 @@
 
 import './App.css';
 import { useEffect, useState } from 'react';
+import MediaCard from './components/MediaCard';
+
+// import { Bar } from 'react-chartjs-2';
+
 
 function App() {
 
@@ -17,6 +21,7 @@ function App() {
         pokemonWeakness(pokemonData.types);
         setCurrentId(pokemonData.id);
         setPokemon(pokemonData);
+        console.log(pokemonData)
         //console.log(pokemonData);
         setisLoading(false);
         
@@ -54,6 +59,7 @@ function App() {
   const getPokemon = (id) => {
     setCurrentId(id);
   }
+  
   return (
     <div className="App">
       <header className="App-header">
@@ -68,18 +74,29 @@ function App() {
                 </div>
                 {/*ScreeContainer*/}
                 <div>
-                  <img src={pokemon.sprites.front_default} className="App-logo" alt="logo" />
+                  <MediaCard
+                  
+                  logo={pokemon.sprites.front_default} 
+                  image={pokemon.sprites.other['official-artwork'].front_default} 
+                  name={pokemon.name} 
+                  weight={pokemon.weight} 
+                  height={pokemon.height} 
+                  weakness={<div className='weakness-container'>
+                 
+                  {weakness?.map((wk,index)=>{
+                    return <span key={index}>{wk.name}</span>
+                  })}
+                </div>}
+                  />
+                
                 </div>
                 {/*Info Container*/}
-                {console.log('renderweakness',weakness)}
+                
                 <div>
                   <button onClick={() => getPokemon(currentId - 1)}>Prev  </button>
                   <button onClick={() => getPokemon(currentId + 1)}>Next</button>
                   
-                  <div>
-                    ++Weight++: 
-                    <label>{pokemon.weight}</label>
-                  </div>
+                  
                   <div>
                     --Abilities--
                     {pokemon.abilities.map((ab,index)=>{
@@ -93,12 +110,7 @@ function App() {
                       return <p key={index}>{ty.type.name}</p>
                     })}
                   </div>
-                  <div>
-                    --weakness--
-                    {weakness?.map((wk,index)=>{
-                      return <p key={index}>{wk.name}</p>
-                    })}
-                  </div>
+                  
                 </div>
 
               </div>

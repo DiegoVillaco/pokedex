@@ -2,7 +2,9 @@
 import './App.css';
 import { useEffect, useState } from 'react';
 import MediaCard from './components/MediaCard';
-
+import {Routes, Route} from 'react-router-dom';
+import SignInComponent from './components/SingInComponent';
+import PageNotFoundComponent from './components/PageNotFoundComponent';
 // import { Bar } from 'react-chartjs-2';
 
 
@@ -68,48 +70,38 @@ function App() {
             : (
 
               <div>
-                {/*head container*/}
                 <div>
-                  <label>{pokemon.name}</label>
+
                 </div>
-                {/*ScreeContainer*/}
+                
                 <div>
-                  <MediaCard
+                 <Routes>
+                  <Route path='/' element ={<SignInComponent/>}/>
+                  <Route path='/home' element={<MediaCard
                   
-                  logo={pokemon.sprites.front_default} 
-                  image={pokemon.sprites.other['official-artwork'].front_default} 
-                  name={pokemon.name} 
-                  weight={pokemon.weight} 
-                  height={pokemon.height} 
-                  weakness={<div className='weakness-container'>
-                 
-                  {weakness?.map((wk,index)=>{
-                    return <span key={index}>{wk.name}</span>
-                  })}
+                    logo={pokemon.sprites.front_default} 
+                    image={pokemon.sprites.other['official-artwork'].front_default} 
+                    name={pokemon.name} 
+                    weight={pokemon.weight} 
+                    height={pokemon.height} 
+                    weakness={<div className='weakness-container'>
+                    {weakness?.map((wk,index)=>{
+                      return <span key={index}>{wk.name}</span>
+                    })}
                 </div>}
-                  />
+                  />}></Route>
+                  <Route path='*' element = {<PageNotFoundComponent/>}/>
+                </Routes>
+                  
+                   
                 
                 </div>
-                {/*Info Container*/}
-                
                 <div>
                   <button onClick={() => getPokemon(currentId - 1)}>Prev  </button>
                   <button onClick={() => getPokemon(currentId + 1)}>Next</button>
                   
                   
-                  <div>
-                    --Abilities--
-                    {pokemon.abilities.map((ab,index)=>{
-                      
-                      return <p key={index}>{ab.ability.name}</p>
-                    })}
-                  </div>
-                  <div>
-                    --Type--
-                    {pokemon.types.map((ty,index)=>{
-                      return <p key={index}>{ty.type.name}</p>
-                    })}
-                  </div>
+                 
                   
                 </div>
 
@@ -118,7 +110,7 @@ function App() {
         }
 
       </header>
-    </div>
+    </div>  
   );
 }
 

@@ -4,11 +4,12 @@ import { useEffect, useState } from 'react';
 import MediaCard from './components/MediaCard';
 import { Routes, Route } from 'react-router-dom';
 import SignInComponent from './components/SingInComponent';
-import PageNotFoundComponent from './components/PageNotFoundComponent';
+import PageNotFoundComponent from './components/FavoritePage';
 import { ThemeProvider } from './context/ThemeContext';
 import BottomNav from './components/BottomNav';
 import NavBar from './components/NavBar';
-import StarIcon from '@mui/icons-material/Star';
+
+
 
 
 
@@ -22,7 +23,7 @@ function App() {
   const [pokemon, setPokemon] = useState({ sprites: {} });
   const [isLoading, setisLoading] = useState({ isLoading: false });
   const [weakness, setWeakness] = useState([]);
-  const [isFavorite, setFavorite]= useState(false);
+  
   const [myFavorites, setMyFavorites]= useState([])
   
   useEffect(() => {
@@ -58,25 +59,22 @@ function App() {
         });
 
       })
-      console.log(aux);
+      
       setWeakness(aux);
-      console.log('pokeweak', pokeweak)
+      
 
     })
-
-
-
   }
 
   const getPokemon = (id) => {
     setCurrentId(id);
   }
 
-  const addFavorite =(id)=>{
+  const addMyFavorite =(id)=>{
     setMyFavorites([...myFavorites, id])
     
   }
-  const deleteFavorite =(id)=>{
+  const deleteMyFavorite =(id)=>{
     const result = myFavorites.filter(notDeletedPokemon => notDeletedPokemon  !== id);
 
     setMyFavorites(result);
@@ -106,11 +104,12 @@ function App() {
 
                   <ThemeProvider >
                     <Routes>
-                      <Route path='/' element={<SignInComponent />} />
+                      <Route path='/login' element={<SignInComponent />} />
                       <Route path='/home' element={<MediaCard
-                        id={pokemon.id}
-                        addFavorite={addFavorite}
-                        deleteFavorite={deleteFavorite}
+
+                      pokemon={pokemon}  
+                      id={pokemon.id}
+                        
                         myFavorites={myFavorites}
                         logo={pokemon.sprites.front_default}
                         image={pokemon.sprites.other['official-artwork'].front_default}
@@ -124,6 +123,8 @@ function App() {
                           })}
                         </div>}
                       />}></Route>
+
+                      <Route path='/favorites' element={<PageNotFoundComponent />} />
                       <Route path='*' element={<PageNotFoundComponent />} />
                     </Routes>
                     

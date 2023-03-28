@@ -13,17 +13,16 @@ function SignInComponent(props) {
         navigate("/home")
     }
     const handleEmailInputChange = function (e){
-        console.log('hi from handleemailinputchange');
+        
         setEmail(e.target.value);
     }
     const handlePasswordInputChange = function (e){
-        console.log('hi from handlepasswordinputchange');
-        console.log(e.target.value);
+        
         setPassword(e.target.value);
 
     }
     const handleRememberMeInputChange = function(e){
-        console.log('hi from remembermeinputchange');
+       
         setRememberMe(!rememberMe);
     }
     const handleSubmit = function (e){

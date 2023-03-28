@@ -4,18 +4,43 @@ import { Card, Avatar, IconButton, CardHeader, CardActions, CardContent, CardMed
 //import {Bar } from 'react-chartjs-2';
 import { Chart } from './Chart.js';
 import ThemeContext from '../context/ThemeContext.js';
-import StarOutlineIcon from '@mui/icons-material/StarOutline';
-import StarIcon from '@mui/icons-material/Star';
-import { yellow } from '@mui/material/colors';
+
+import { connect, useDispatch, useStore } from 'react-redux';
+import * as favoriteActions from '../redux/actions/favoriteAction'
+
+import FavoritePokemon from './FavoritePokemon.js';
 
 
 
 
 
-export default function MediaCard({ addFavorite, deleteFavorite, myFavorites, image, name, id, logo, weight, height, habili, weakness, }) {
+
+export default function MediaCard({ myFavorites, image, name, id, logo, weight, height, habili, weakness,pokemon }) {
   const data = React.useContext(ThemeContext);
-  console.log(myFavorites)
+
+
+  const dispatch = useDispatch();
+  let myRedux=useStore();
+const myFavoritesList = myRedux.getState().favorites;
+  const [isFavorite,setIsFavorite]=useState(false)
+
+
+  useEffect (()=>{
+    const clickToFavorite =()=>{
+      dispatch(favoriteActions.addFavorite(id))
+      setIsFavorite(true);
+    }
+    const clickToUnFavorite =()=>{
+      dispatch(favoriteActions.deleteFavorite(id))
+      setIsFavorite(false);
+    }
+
+
+  },[myFavoritesList])
+
   
+
+
   return (
     <div className={data.theme}>
 
@@ -25,9 +50,7 @@ export default function MediaCard({ addFavorite, deleteFavorite, myFavorites, im
           avatar={
             <Avatar sx={{ bgcolor: 'white', boxShadow: 5, padding: '5px', margin: '2px' }} aria-label='recipe' src={logo}></Avatar>
           }
-          action={myFavorites.includes(id) ? 
-            <StarIcon sx={{ color: yellow[500] }} fontSize="large" onClick={() => deleteFavorite(id)} /> : 
-            <StarOutlineIcon fontSize="large" onClick={() => addFavorite(id)} />}
+          action={<FavoritePokemon pokemon={pokemon}/>}
           titleTypographyProps={{ variant: 'h4', alig: 'left' }}
           title={name}
           subheader={id} />
